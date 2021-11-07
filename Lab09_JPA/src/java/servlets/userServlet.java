@@ -20,11 +20,11 @@ public class userServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        UserService ns = new UserService();
+        UserService us = new UserService();
         RoleService rs = new RoleService();
         
           try {           
-            List<User> users = ns.getAll();
+            List<User> users = us.getAll();
             request.setAttribute("users", users);
             System.out.println(users);
             
@@ -58,20 +58,22 @@ public class userServlet extends HttpServlet {
         String first_name = request.getParameter("firstName");
         String last_name = request.getParameter("lastName");
         String password = request.getParameter("password");
-        int role = 0;
+        String role = request.getParameter("role");
         
 
 
         UserService us = new UserService();
         RoleService rs = new RoleService();
+        User newUser = new User();
         
         
         try {
             switch (action) {
                 case "add":
-                    role = Integer.parseInt(request.getParameter("roleSelect"));
+                    role = request.getParameter("roleSelect");
                     System.out.println("in case add");
-                    us.insert(email, active, first_name, last_name, password, role);
+                    us.insert(email, active, first_name, last_name, password);
+                    //newUser.setRole(role);
                     System.out.println("added new user");
                     break;
                 case "delete":
@@ -80,8 +82,8 @@ public class userServlet extends HttpServlet {
                 case "edit":
                     User toUpdateUser = us.get(toUpdate);
                     request.setAttribute("updatedEmail", toUpdateUser.getEmail());
-                    request.setAttribute("updatedFirstName", toUpdateUser.getFirst_name());
-                    request.setAttribute("updatedLastName", toUpdateUser.getLast_name());
+                    request.setAttribute("updatedFirstName", toUpdateUser.getFirstName());
+                    request.setAttribute("updatedLastName", toUpdateUser.getLastName());
                     request.setAttribute("updatedPassword", toUpdateUser.getPassword());
                     request.setAttribute("updatedRole", toUpdateUser.getRole());
                     break;
@@ -90,9 +92,9 @@ public class userServlet extends HttpServlet {
                     first_name = request.getParameter("updatedFirstName");
                     last_name = request.getParameter("updatedLastName");
                     password = request.getParameter("updatedPassword");
-                    role = Integer.parseInt(request.getParameter("updatedRole"));
-                    User updatedUser = new User(email, active, first_name, last_name, password, role);
-                    us.update(updatedUser);
+                    //role = Integer.parseInt(request.getParameter("updatedRole"));
+                    //User updatedUser = new User(email, active, first_name, last_name, password, role);
+                    //us.update(updatedUser);
                     System.out.println("we updated the details!");
                     break;
                 default: 

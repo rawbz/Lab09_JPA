@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/Lab09_JPA">
     <Resource
-        name="jdbc/notesdb"
-        url="jdbc:mysql://localhost:3307/notesdb"
+        name="jdbc/userdb"
+        url="jdbc:mysql://localhost:3307/userdb"
         username="root"
         password="password"
         driverClassName="com.mysql.jdbc.Driver"

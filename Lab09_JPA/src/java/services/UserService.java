@@ -3,6 +3,7 @@ package services;
 
 import dataaccess.UserDB;
 import java.util.List;
+import models.Role;
 import models.User;
 
 public class UserService {
@@ -15,9 +16,10 @@ public class UserService {
         
     }
       
-    public void insert(String email, boolean active, String firstname, String lastname, String password, int role) throws Exception{
+    public void insert(String email, boolean active, String firstname, String lastname, String password, Role role) throws Exception{
         System.out.println("In user service - inserted new user");
-        User newUser = new User(email, active, firstname, lastname, password, role);
+        User newUser = new User(email, active, firstname, lastname, password);
+        newUser.setRole(role);
         UserDB userDB = new UserDB();
         userDB.insert(newUser);
     }
@@ -39,4 +41,9 @@ public class UserService {
         UserDB userDB = new UserDB();
         userDB.update(user);
     }
+
+    public void insert(String email, boolean active, String first_name, String last_name, String password) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

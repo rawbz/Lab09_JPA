@@ -109,9 +109,9 @@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%@page
                                 <select class="form-select" id="inputGroupSelect01" name="roleSelect">
                                     <option selected>Choose Role</option>
                                     <%--JSTL used to loop through avaliable roles --%>
-                                    <c:forEach items="${roleLabel}" var="r">
+                                    <%--<c:forEach items="${roleLabel}" var="r">
                                         <option value="${r.role_id}">${r.role_name}</option>
-                                    </c:forEach>               
+                                    </c:forEach>    --%>           
                                 </select>
                             </div>
                             <div class="d-grid gap-2">
@@ -127,7 +127,7 @@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%@page
                             <c:forEach items="${users}" var="user">
                                 <div class="col-sm-3">
                                     <div class="card text-white bg-dark border-light mb-3">
-                                        <c:choose>
+                                       <%-- <c:choose>
                                             <c:when test="${user.role == 1}">
                                                 <div class="pt-3">
                                                     <img src="https://img.icons8.com/bubbles/100/000000/admin-settings-male.png"/>
@@ -143,18 +143,18 @@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%@page
                                                     <img src="https://img.icons8.com/bubbles/100/000000/marilyn-monro.png"/>
                                                 </div>
                                             </c:when>
-                                        </c:choose>
+                                        </c:choose> --%>
                                         <div class="card-body">
                                             
-                                            <c:forEach items="${roleLabel}" var="r">
+                                            <%-- <c:forEach items="${roleLabel}" var="r">
                                         <c:choose>
                                             <c:when test="${user.role == r.role_id}">
                                                 <h5 class="card-title">${r.role_name}</h5>
                                             </c:when>   
                                         </c:choose>
-                                    </c:forEach>
+                                    </c:forEach> 
                                          
-                                            <p class="card-text">${user.first_name} ${user.last_name}</p>
+                                            <p class="card-text">${user.firstName} ${user.lastName}</p>
                                             <p class="card-text">${user.email}</p>
                                             <%-- This is a form for the edit button--%>
                                             <form action="Users" method="post">

@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 import models.Role;
+import models.User;
 
 /**
  *
@@ -14,30 +16,16 @@ import models.Role;
 public class RoleDB {
     
     public List<Role> getAll() throws Exception{
-        List<Role> roles = new ArrayList<>();
-        ConnectionPool cp = ConnectionPool.getInstance();
-        Connection con = cp.getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+        EntityManager em = DBUtil.getEmFactory().createEntityManager();
         
-        String sql = "SELECT * FROM role";
         
-                try {
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                int roleId = rs.getInt(1);
-                String roleName = rs.getString(2);
-                Role role = new Role(roleId, roleName);
-                roles.add(role);
-            }
+        try {
+            List<Role> roles = em.createNamedQuery("Role.findAll", Role.class).getResultList();
+            return roles;
         } finally {
-            DBUtil.closeResultSet(rs);
-            DBUtil.closePreparedStatement(ps);
-            cp.freeConnection(con);
+            em.close();
         }
 
-        return roles;
     }
     
 }
