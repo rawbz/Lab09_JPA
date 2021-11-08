@@ -80,7 +80,7 @@ public class UserDB {
             role.getUserList().remove(user);
             trans.begin();
             em.remove(em.merge(user));
-            em.merge(user);
+            em.merge(role);
             trans.commit();
         } catch (Exception ex) {
             trans.rollback();
