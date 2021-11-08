@@ -44,6 +44,8 @@ public class UserDB {
         EntityTransaction trans = em.getTransaction();
         
         try { 
+            Role role = user.getRole();
+            role.getUserList().add(user);
             trans.begin();
             em.persist(user);
             trans.commit();
@@ -74,6 +76,8 @@ public class UserDB {
         EntityTransaction trans = em.getTransaction();
         
         try {
+            Role role = user.getRole();
+            role.getUserList().remove(user);
             trans.begin();
             em.remove(em.merge(user));
             em.merge(user);

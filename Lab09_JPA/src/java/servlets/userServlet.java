@@ -58,23 +58,19 @@ public class userServlet extends HttpServlet {
         String first_name = request.getParameter("firstName");
         String last_name = request.getParameter("lastName");
         String password = request.getParameter("password");
-        String role = request.getParameter("role");
-        
-
+        String role = request.getParameter("roleSelect");
 
         UserService us = new UserService();
         RoleService rs = new RoleService();
         User newUser = new User();
+        Role newRole = new Role();
         
         
         try {
             switch (action) {
                 case "add":
-                    role = request.getParameter("roleSelect");
-                    System.out.println("in case add");
-                    us.insert(email, active, first_name, last_name, password);
-                    //newUser.setRole(role);
-                    System.out.println("added new user");
+                    System.out.println("In Userservlet - add user");
+                    us.insert(email, active, first_name, last_name, password, Integer.parseInt(role));
                     break;
                 case "delete":
                     us.delete(toDelete);
@@ -85,17 +81,18 @@ public class userServlet extends HttpServlet {
                     request.setAttribute("updatedFirstName", toUpdateUser.getFirstName());
                     request.setAttribute("updatedLastName", toUpdateUser.getLastName());
                     request.setAttribute("updatedPassword", toUpdateUser.getPassword());
-                    request.setAttribute("updatedRole", toUpdateUser.getRole());
+                    request.setAttribute("updatedRole", toUpdateUser.getRole().getRoleName());
                     break;
                 case "save":
                     email = request.getParameter("updatedEmail");
                     first_name = request.getParameter("updatedFirstName");
                     last_name = request.getParameter("updatedLastName");
                     password = request.getParameter("updatedPassword");
-                    //role = Integer.parseInt(request.getParameter("updatedRole"));
-                    //User updatedUser = new User(email, active, first_name, last_name, password, role);
-                    //us.update(updatedUser);
-                    System.out.println("we updated the details!");
+                    role = request.getParameter("updatedRole");
+             
+                    us.update(email, active, first_name, last_name, password, Integer.parseInt(role));
+
+                    System.out.println("In userservlet - we updated the details!");
                     break;
                 default: 
                     getServletContext().getRequestDispatcher("/WEB-INF/Users.jsp").forward(request, response);
@@ -111,6 +108,7 @@ public class userServlet extends HttpServlet {
             request.setAttribute("users", users);
             System.out.println(users);
             List<Role> roles = rs.getAll();
+            System.out.println(roles);
             request.setAttribute("roleLabel", roles);
         } catch (Exception ex) {
             System.out.println("Error loading Users");

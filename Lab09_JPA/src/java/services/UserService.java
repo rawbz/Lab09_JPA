@@ -1,6 +1,7 @@
 
 package services;
 
+import dataaccess.RoleDB;
 import dataaccess.UserDB;
 import java.util.List;
 import models.Role;
@@ -9,19 +10,23 @@ import models.User;
 public class UserService {
     
      public List<User> getAll() throws Exception {
-        System.out.println("In the User Service");
+        System.out.println("In the User Service - get all method");
         UserDB userDB = new UserDB();
         List<User> users = userDB.getAll();
         return users;
         
     }
       
-    public void insert(String email, boolean active, String firstname, String lastname, String password, Role role) throws Exception{
-        System.out.println("In user service - inserted new user");
-        User newUser = new User(email, active, firstname, lastname, password);
-        newUser.setRole(role);
+    public void insert(String email, boolean active, String firstname, String lastname, String password, int roleId) throws Exception{
+        User user = new User(email, active, firstname, lastname, password);
+        RoleDB roleDB = new RoleDB();
+        Role role = roleDB.get(roleId);
+        user.setRole(role);
+        
         UserDB userDB = new UserDB();
-        userDB.insert(newUser);
+        userDB.insert(user);
+        System.out.println("In user service - inserted new user");
+
     }
     
     public void delete(String email) throws Exception {
@@ -37,13 +42,22 @@ public class UserService {
         return user;
     }
     
-    public void update(User user) throws Exception {
+    public void update(String email, boolean active, String firstname, String lastname, String password, int roleId) throws Exception {
         UserDB userDB = new UserDB();
+        User user = userDB.get(email);
+        user.setEmail(email);
+        user.setActive(active);
+        user.setFirstName(firstname);
+        user.setLastName(lastname);
+        user.setPassword(password);
+        
+        RoleDB roleDB = new RoleDB();
+        Role role = roleDB.get(roleId);
+        
+        user.setRole(role);
+        
         userDB.update(user);
     }
 
-    public void insert(String email, boolean active, String first_name, String last_name, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }
